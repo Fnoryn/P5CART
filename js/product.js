@@ -50,3 +50,46 @@ function afficherProduit(articleKanap){
         couleursProduit.text = couleurs;
     }
 }
+
+function ajoutProduitPannier(produitKanap){
+    
+}
+
+function controleQuantiter(test){
+    if(test.value< 1 || test.value > 100){
+        alert("vous devez entré une valeurs entre 1 et 100");
+        return false;
+    }
+    return true;
+}
+
+function controleCouleurs(test){
+    if(test.value === ""){
+        alert("vous devez choisir une couleur");
+        return false;
+    }
+    return true;
+}
+
+
+
+function btnAjoutProduit(){
+    let btnAddToCart = document.querySelector('#addToCart');
+    btnAddToCart.addEventListener("click", (event) => {
+        let quantiterProduit = document.querySelector('#quantity');
+        let couleur = document.querySelector('#colors');
+        if (controleQuantiter(quantiterProduit) && (controleCouleurs(couleur))){
+            alert("tout es bon");
+        }
+    });
+}
+
+function btnQuantiter(){
+    let btnQuantiter = document.querySelector('#quantity');
+    btnQuantiter.addEventListener("change", (event) => {
+        controleQuantiter(event.target);
+    })
+}
+
+btnQuantiter();
+btnAjoutProduit();
