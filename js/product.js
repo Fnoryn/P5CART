@@ -71,6 +71,19 @@ function controleCouleurs(test) {
     }
     return true;
 }
+
+
+// on vérifie si le champ quantité es modifier
+function btnQuantiter() {
+    let btnQuantiter = document.querySelector('#quantity');
+    btnQuantiter.addEventListener("change", (event) => {
+        controleQuantiter(event.target);
+    })
+}
+
+btnQuantiter();
+
+
 const quantiterProduit = document.querySelector('#quantity'); //on récupère la quantité
 const couleur = document.querySelector('#colors'); //on récupère la couleur
 // fonction pour ajouter au panier
@@ -84,6 +97,16 @@ function btnAjoutProduit() {
     });
 }
 
+
+function popupDeConfirmation() {
+    if (window.confirm(`vous avez choisie la couleur ${couleur.value} en ${quantiterProduit.value} exemplère(s) 
+    votre commande es ajouter au panier
+    pour consulter votre panier, cliquez sur OK`)) {
+        window.location.href = "cart.html";
+    }
+}
+
+
 function ajoutAuPanier() {
 
     let choixCouleur = couleur.value;
@@ -92,17 +115,10 @@ function ajoutAuPanier() {
     let produitOption = {
         idDuProduit: produitId,
         couleurDuProduit: choixCouleur,
-        quantiterDuProduit: Number(choixQuantiter)
+        quantiterDuProduit: Number(choixQuantiter),
     };
     //on créé le local storage
     let localStorageProduit = JSON.parse(localStorage.getItem("produit"));
-    const popupDeConfirmation = () => {
-        if (window.confirm(`vous avez choisie la couleur ${choixCouleur} en ${choixQuantiter} exemplère(s) 
-        votre commande es ajouter au panier
-        pour consulter votre panier, cliquez sur OK`)) {
-            window.location.href = "cart.html";
-        }
-    }
 
     //importation dans le local storage
     //si le panier a déjà 1 article
@@ -110,9 +126,9 @@ function ajoutAuPanier() {
         const resultatFind = localStorageProduit.find((el) => el.idDuProduit === produitId && el.couleurDuProduit == choixCouleur);
         //si le produit commandé est déjà dans le panier
         if (resultatFind) {
-            let nouvelQUantiter =
+            let nouvelQuantiter =
                 parseInt(produitOption.quantiterDuProduit) + parseInt(resultatFind.quantiterDuProduit);
-            resultatFind.quantiterDuProduit = nouvelQUantiter;
+            resultatFind.quantiterDuProduit = nouvelQuantiter;
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
             console.table(localStorageProduit);
             popupDeConfirmation();
@@ -133,13 +149,3 @@ function ajoutAuPanier() {
     }
 
 }
-
-// on vérifie si le champ quantité es modifier
-function btnQuantiter() {
-    let btnQuantiter = document.querySelector('#quantity');
-    btnQuantiter.addEventListener("change", (event) => {
-        controleQuantiter(event.target);
-    })
-}
-
-btnQuantiter();
