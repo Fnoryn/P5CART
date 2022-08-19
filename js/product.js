@@ -126,8 +126,7 @@ function ajoutAuPanier() {
         const resultatFind = localStorageProduit.find((el) => el.idDuProduit === produitId && el.couleurDuProduit == choixCouleur);
         //si le produit commandé est déjà dans le panier
         if (resultatFind) {
-            let nouvelQuantiter =
-                parseInt(produitOption.quantiterDuProduit) + parseInt(resultatFind.quantiterDuProduit);
+            let nouvelQuantiter = parseInt(produitOption.quantiterDuProduit) + parseInt(resultatFind.quantiterDuProduit);
             resultatFind.quantiterDuProduit = nouvelQuantiter;
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
             console.table(localStorageProduit);
