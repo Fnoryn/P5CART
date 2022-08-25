@@ -16,7 +16,7 @@ function verifPanierVide() {
 //fonction pour afficher les produit du panier
 function affichageDuPanier() {
     verifPanierVide();
-    
+
     for (let produit in localStorageProduit) {
         let baliseGeneral = document.querySelector("#cart__items");
         //création de l'article
@@ -25,7 +25,7 @@ function affichageDuPanier() {
 
         const couleurProd = localStorageProduit[produit].couleurDuProduit;
         console.log(couleurProd)
-        
+
         const quantiterProd = localStorageProduit[produit].quantiterDuProduit;
         console.log(quantiterProd);
         const baliseArticle = document.createElement("article")
@@ -35,7 +35,7 @@ function affichageDuPanier() {
         baliseArticle.setAttribute('data-color', couleurProd);
         // baliseArticle.setAttribute('data-quantiter', localStorageProduit[produit].quantiterDuProduit);
         // récupération de l'id de la couleur et de la quantiter du produit
-   
+
 
 
 
@@ -48,7 +48,7 @@ function affichageDuPanier() {
                 const baliseDivImg = document.createElement("div")
                 baliseArticle.appendChild(baliseDivImg);
                 baliseDivImg.className = "cart__item__img";
-        
+
                 //creation de l'img
                 const baliseImg = document.createElement("img");
                 baliseDivImg.appendChild(baliseImg);
@@ -59,32 +59,32 @@ function affichageDuPanier() {
                 const baliseDivContenu = document.createElement("div");
                 baliseArticle.appendChild(baliseDivContenu);
                 baliseDivContenu.className = "cart__item__content";
-                
+
                 //creation de la div description dans la div contenu
                 const baliseDivDescription = document.createElement("div");
                 baliseDivContenu.appendChild(baliseDivDescription);
                 baliseDivDescription.className = "cart__item__content__description";
-        
+
                 //creation du titre avec le nom du produit
                 const baliseH2Nom = document.createElement("h2");
                 baliseDivDescription.appendChild(baliseH2Nom)
                 baliseH2Nom.textContent = `${produit.name}`;
-        
+
                 //creation du p pour afficher la couleur du produit
                 const balisePCouleur = document.createElement("p");
                 baliseDivDescription.appendChild(balisePCouleur)
                 balisePCouleur.textContent = `${couleurProd}`;
-        
+
                 //creation du p pour afficher le prix du produit
                 const balisePPrix = document.createElement("p");
                 baliseDivDescription.appendChild(balisePPrix);
                 balisePPrix.textContent = `${produit.price} €`;
-        
+
                 //creation de la div parametre pour la quantiter etc.
                 const baliseDivContenuParametre = document.createElement("div");
                 baliseArticle.appendChild(baliseDivContenuParametre);
                 baliseDivContenuParametre.className = "cart__item__content__settings";
-                
+
                 //creation de la div quantiter
                 const baliseDivQuantiter = document.createElement("div");
                 baliseDivContenuParametre.appendChild(baliseDivQuantiter);
@@ -99,7 +99,7 @@ function affichageDuPanier() {
                 const baliseInput = document.createElement("input");
                 baliseDivQuantiter.appendChild(baliseInput);
                 baliseInput.type = 'number';
-                baliseInput.className = 'itemQuantity'; 
+                baliseInput.className = 'itemQuantity';
                 baliseInput.name = 'itemQuantity';
                 baliseInput.min = '1';
                 baliseInput.max = '100';
@@ -108,7 +108,7 @@ function affichageDuPanier() {
                     changeQuantiter(event.target);
                 })
 
-                
+
                 //creation de la div pour supprimer les produits 
                 const baliseDivSupprimer = document.createElement("div");
                 baliseArticle.appendChild(baliseDivSupprimer);
@@ -116,7 +116,7 @@ function affichageDuPanier() {
                 baliseDivSupprimer.addEventListener("click", (event) => {
                     suppItem(event.target);
                 })
-                
+
                 //creation du p pour supprimer les produit
                 const balisePSupprimer = document.createElement("p");
                 baliseDivSupprimer.appendChild(balisePSupprimer);
@@ -131,10 +131,10 @@ function affichageDuPanier() {
 }
 affichageDuPanier();
 
-function suppItem(){
+function suppItem() {
     let btnSupp = document.querySelectorAll('.deleteItem');
 
-    for(let i =0; i < btnSupp.length; i++){
+    for (let i = 0; i < btnSupp.length; i++) {
         btnSupp[i].addEventListener("click", (event) => {
             event.preventDefault();
             let idSelectioner = btnSupp[i].closest("article").dataset.id;
@@ -150,7 +150,7 @@ function suppItem(){
     }
 }
 
-function changeQuantiter(){
+function changeQuantiter() {
     let produitQuantiter = document.querySelectorAll(".itemQuantity");
 
     produitQuantiter.forEach((produitQt) => {
@@ -162,13 +162,13 @@ function changeQuantiter(){
             event.preventDefault();
             let nouvelQuantiter = Number(produitQt.value);
             localStorageProduit.forEach((element) => {
-                if(element.idDuProduit == idProduitQt && element.couleurDuProduit == couleurProduitQT){
+                if (element.idDuProduit == idProduitQt && element.couleurDuProduit == couleurProduitQT) {
                     element.quantiterDuProduit = nouvelQuantiter;
                     location.reload();
                 }
             });
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
-  
+
         })
     })
 
@@ -176,12 +176,12 @@ function changeQuantiter(){
 }
 
 
-function prixTotal(){
+function prixTotal() {
     let quantiter = document.querySelectorAll(".itemQuantity");
     let prix = document.querySelectorAll(".cart__item__content__description");
     let prixPanier = 0;
 
-    for(let i=0; i < prix.length; i++){
+    for (let i = 0; i < prix.length; i++) {
         prixPanier += parseInt(prix[i].lastElementChild.textContent) * quantiter[i].value;
     }
     document.querySelector('#totalPrice').textContent = prixPanier;
@@ -189,10 +189,10 @@ function prixTotal(){
 
 }
 
-function quantiterTotal(){
+function quantiterTotal() {
     let produitTotal = JSON.parse(localStorage.getItem("produit"));
     let totalProduit = 0;
-    for(const item of produitTotal){
+    for (const item of produitTotal) {
         totalProduit += parseInt(item.quantiterDuProduit);
     }
     const quantiterTotalProduit = document.querySelector('#totalQuantity');
@@ -200,127 +200,122 @@ function quantiterTotal(){
     localStorage.setItem("produit", JSON.stringify(localStorageProduit));
 }
 
-function formulaire(){
+function formulaire() {
     let nameRegex = /^[a-zA-Z\-çñàéèêëïîôüù ]{2,}$/;
-let adressRegex = /^[0-9a-zA-Z\s,.'-çñàéèêëïîôüù]{3,}$/;
-let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-// Variables pour récupérer les id des champs de formulaire
-const prenom = document.getElementById("firstName");
-const nom = document.getElementById("lastName");
-const address = document.getElementById("address");
-const ville = document.getElementById("city");
-const email = document.getElementById("email");
+    let adressRegex = /^[0-9a-zA-Z\s,.'-çñàéèêëïîôüù]{3,}$/;
+    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // Variables pour récupérer les id des champs de formulaire
+    const prenom = document.getElementById("firstName");
+    const nom = document.getElementById("lastName");
+    const address = document.getElementById("address");
+    const ville = document.getElementById("city");
+    const email = document.getElementById("email");
 
-prenom.addEventListener("change", (event) => {
-    event.preventDefault();
-    if (nameRegex.test(prenom.value) == false || prenom.value == "") {
-        document.getElementById("firstNameErrorMsg").textContent = "Prénom invalide, exemple de prénom : Emmanuel";
-        return false;
-    } else {
-        document.getElementById("firstNameErrorMsg").textContent = "";
-        return true;
-    }
-});
+    prenom.addEventListener("change", (event) => {
+        event.preventDefault();
+        if (nameRegex.test(prenom.value) == false || prenom.value == "") {
+            document.getElementById("firstNameErrorMsg").textContent = "Prénom invalide, exemple de prénom : Emmanuel";
+            return false;
+        } else {
+            document.getElementById("firstNameErrorMsg").textContent = "";
+            return true;
+        }
+    });
 
-nom.addEventListener("change", (event) => {
-    event.preventDefault();
-    if (nameRegex.test(nom.value) == false || nom.value == "") {
-        document.getElementById("lastNameErrorMsg").textContent = "nom invalide, exemple de nom : Macron";
-        return false;
-    } else {
-        document.getElementById("lastNameErrorMsg").textContent = "";
-        return true;
-    }
-});
+    nom.addEventListener("change", (event) => {
+        event.preventDefault();
+        if (nameRegex.test(nom.value) == false || nom.value == "") {
+            document.getElementById("lastNameErrorMsg").textContent = "nom invalide, exemple de nom : Macron";
+            return false;
+        } else {
+            document.getElementById("lastNameErrorMsg").textContent = "";
+            return true;
+        }
+    });
 
-address.addEventListener("change", (event) => {
-    event.preventDefault();
-    if (adressRegex.test(address.value) == false || address.value == "") {
-        document.getElementById("addressErrorMsg").textContent = "addresse invalide, exemple addresse : 55 Rue du Faubourg Saint-Honoré ";
-        return false;
-    } else {
-        document.getElementById("addressErrorMsg").textContent = "";
-        return true;
-    }
-});
+    address.addEventListener("change", (event) => {
+        event.preventDefault();
+        if (adressRegex.test(address.value) == false || address.value == "") {
+            document.getElementById("addressErrorMsg").textContent = "addresse invalide, exemple addresse : 55 Rue du Faubourg Saint-Honoré ";
+            return false;
+        } else {
+            document.getElementById("addressErrorMsg").textContent = "";
+            return true;
+        }
+    });
 
-ville.addEventListener("change", (event) => {
-    event.preventDefault();
-    if (adressRegex.test(ville.value) == false || ville.value == "") {
-        document.getElementById("cityErrorMsg").textContent = "ville invalide, exemple ville : Paris";
-        return false;
-    } else {
-        document.getElementById("cityErrorMsg").textContent = "";
-        return true;
-    }
-});
+    ville.addEventListener("change", (event) => {
+        event.preventDefault();
+        if (adressRegex.test(ville.value) == false || ville.value == "") {
+            document.getElementById("cityErrorMsg").textContent = "ville invalide, exemple ville : Paris";
+            return false;
+        } else {
+            document.getElementById("cityErrorMsg").textContent = "";
+            return true;
+        }
+    });
 
-email.addEventListener("change", (event) => {
-    event.preventDefault();
-    if (emailRegex.test(email.value) == false || email.value == "") {
-        document.getElementById("emailErrorMsg").textContent = "email invalide, exemple ville : EmmanuelMacron@gmail.com";
-        return false;
-    } else {
-        document.getElementById("emailErrorMsg").textContent = "";
-        return true;
-    }
-});
+    email.addEventListener("change", (event) => {
+        event.preventDefault();
+        if (emailRegex.test(email.value) == false || email.value == "") {
+            document.getElementById("emailErrorMsg").textContent = "email invalide, exemple ville : EmmanuelMacron@gmail.com";
+            return false;
+        } else {
+            document.getElementById("emailErrorMsg").textContent = "";
+            return true;
+        }
+    });
+
 
 }
 
 formulaire();
 
-function envoiInfoLocalStorage(){
-    const brnCommander = document.querySelector('#order');
+function postFetch() {
+    const commande = document.querySelector('#order');
 
-    brnCommander.addEventListener("click", (event)=> {
+    commande.addEventListener("click", (event) => {
         event.preventDefault();
 
         let inputPrenom = document.querySelector('#firstName');
         let inputNom = document.querySelector('#lastName');
-        let inputAdresse = document.querySelector('#address');
+        let inputAdress = document.querySelector('#address');
         let inputVille = document.querySelector('#city');
-        let inputEmail = document.querySelector('#email');
+        let inputEmail = document.querySelector('#email')
 
-        let produitsId = [];
-        for(let i=0; i<localStorageProduit.length; i++){
-            produitsId.push(localStorageProduit[i].idDuProduit);
+        let produitAcheter = [];
+        for (let y = 0; y < localStorageProduit.length; y++) {
+            produitAcheter.push(localStorageProduit[y].idDuProduit);
         }
-        console.log(produitsId);
-
-        const commande = {
-            contact : {
-                fistName: inputPrenom.value,
+        console.log(produitAcheter);
+        const order = {
+            contact: {
+                firstName: inputPrenom.value,
                 lastName: inputNom.value,
-                address: inputAdresse.value,
+                address: inputAdress.value,
                 city: inputVille.value,
-                email: inputEmail.value,
+                email: inputEmail.value
             },
-            produit: produitsId,
+            products: produitAcheter,
         }
-
-        const option = {
+        console.log(order);
+        const options = {
             method: 'POST',
-            body: JSON.stringify(commande),
+            body: JSON.stringify(order),
             headers: {
                 'Accept': 'application/json',
                 "Content-Type": "application/json"
             },
         };
+        console.log(options);
 
-        fetch("http://localhost:3000/api/products/order", option)
+        fetch("http://localhost:3000/api/products/order", options)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-            localStorage.clear();
-            localStorage.setItem("commandeId", data.orderId);
+            document.location.href = 'confirmation.html?id=' + data.orderId;
+            })
 
-            document.location.href = "confirmation.html";
-        })
-        .catch((err) => {
-            alert("pb avec le fetch :" + err.message);
-        });
     })
 }
-
-envoiInfoLocalStorage();
+postFetch();
