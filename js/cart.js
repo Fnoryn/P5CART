@@ -19,7 +19,7 @@ function affichageDuPanier() {
 
     for (let produit in localStorageProduit) {
         let baliseGeneral = document.querySelector("#cart__items");
-        //création de l'article
+       
         const idProd = localStorageProduit[produit].idDuProduit;
         console.log(idProd);
 
@@ -28,17 +28,12 @@ function affichageDuPanier() {
 
         const quantiterProd = localStorageProduit[produit].quantiterDuProduit;
         console.log(quantiterProd);
+         //création de l'article
         const baliseArticle = document.createElement("article")
         baliseGeneral.appendChild(baliseArticle);
         baliseArticle.className = "cart__item";
         baliseArticle.setAttribute('data-id', idProd);
         baliseArticle.setAttribute('data-color', couleurProd);
-        // baliseArticle.setAttribute('data-quantiter', localStorageProduit[produit].quantiterDuProduit);
-        // récupération de l'id de la couleur et de la quantiter du produit
-
-
-
-
 
         // fetch de l'api pour afficher les img etc.
         fetch(`http://localhost:3000/api/products/` + idProd)
@@ -131,6 +126,7 @@ function affichageDuPanier() {
 }
 affichageDuPanier();
 
+//fonction pour supprimer un article du panier
 function suppItem() {
     let btnSupp = document.querySelectorAll('.deleteItem');
 
@@ -149,7 +145,7 @@ function suppItem() {
         })
     }
 }
-
+//fonction pour changer la quantiter d'un article du panier
 function changeQuantiter() {
     let produitQuantiter = document.querySelectorAll(".itemQuantity");
 
@@ -175,7 +171,7 @@ function changeQuantiter() {
 
 }
 
-
+//fonction qui calcule le prix total des articles du panier
 function prixTotal() {
     let quantiter = document.querySelectorAll(".itemQuantity");
     let prix = document.querySelectorAll(".cart__item__content__description");
@@ -188,7 +184,7 @@ function prixTotal() {
     localStorage.setItem("produit", JSON.stringify(localStorageProduit));
 
 }
-
+// fonction qui calcule la quantiter total d'articles du panier
 function quantiterTotal() {
     let produitTotal = JSON.parse(localStorage.getItem("produit"));
     let totalProduit = 0;
@@ -199,7 +195,7 @@ function quantiterTotal() {
     quantiterTotalProduit.textContent = totalProduit;
     localStorage.setItem("produit", JSON.stringify(localStorageProduit));
 }
-
+// fonction de vérification des champ dans le formulaire
 function formulaire() {
     let nameRegex = /^[a-zA-Z\-çñàéèêëïîôüù ]{2,}$/;
     let adressRegex = /^[0-9a-zA-Z\s,.'-çñàéèêëïîôüù]{3,}$/;
@@ -210,7 +206,7 @@ function formulaire() {
     const address = document.getElementById("address");
     const ville = document.getElementById("city");
     const email = document.getElementById("email");
-
+    //pour le prénom
     prenom.addEventListener("change", (event) => {
         event.preventDefault();
         if (nameRegex.test(prenom.value) == false || prenom.value == "") {
@@ -221,7 +217,7 @@ function formulaire() {
             return true;
         }
     });
-
+    //pour le nom
     nom.addEventListener("change", (event) => {
         event.preventDefault();
         if (nameRegex.test(nom.value) == false || nom.value == "") {
@@ -232,7 +228,7 @@ function formulaire() {
             return true;
         }
     });
-
+    //pour l'addresse
     address.addEventListener("change", (event) => {
         event.preventDefault();
         if (adressRegex.test(address.value) == false || address.value == "") {
@@ -243,7 +239,7 @@ function formulaire() {
             return true;
         }
     });
-
+    //pour la ville
     ville.addEventListener("change", (event) => {
         event.preventDefault();
         if (adressRegex.test(ville.value) == false || ville.value == "") {
@@ -254,7 +250,7 @@ function formulaire() {
             return true;
         }
     });
-
+    //pour l'email
     email.addEventListener("change", (event) => {
         event.preventDefault();
         if (emailRegex.test(email.value) == false || email.value == "") {
@@ -271,6 +267,7 @@ function formulaire() {
 
 formulaire();
 
+//fonction pour le post fetch
 function postFetch() {
     const commande = document.querySelector('#order');
 
