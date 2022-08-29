@@ -1,6 +1,6 @@
 //inisialisation du local storage
 let localStorageProduit = JSON.parse(localStorage.getItem("produit"));
-console.table(localStorageProduit);
+table(localStorageProduit);
 
 
 //fonction pour verifier si le panier est vide et le signaler
@@ -19,16 +19,16 @@ function affichageDuPanier() {
 
     for (let produit in localStorageProduit) {
         let baliseGeneral = document.querySelector("#cart__items");
-       
+
         const idProd = localStorageProduit[produit].idDuProduit;
-        console.log(idProd);
+
 
         const couleurProd = localStorageProduit[produit].couleurDuProduit;
-        console.log(couleurProd)
+
 
         const quantiterProd = localStorageProduit[produit].quantiterDuProduit;
-        console.log(quantiterProd);
-         //création de l'article
+
+        //création de l'article
         const baliseArticle = document.createElement("article")
         baliseGeneral.appendChild(baliseArticle);
         baliseArticle.className = "cart__item";
@@ -134,11 +134,11 @@ function suppItem() {
         btnSupp[i].addEventListener("click", (event) => {
             event.preventDefault();
             let idSelectioner = btnSupp[i].closest("article").dataset.id;
-            console.log(idSelectioner);
+            (idSelectioner);
             let couleurSelectioner = btnSupp[i].closest("article").dataset.color;
-            console.log(couleurSelectioner);
+            (couleurSelectioner);
             localStorageProduit = localStorageProduit.filter(el => el.idDuProduit !== idSelectioner || el.couleurDuProduit !== couleurSelectioner);
-            console.log(localStorageProduit);
+            (localStorageProduit);
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
             location.reload();
 
@@ -151,9 +151,9 @@ function changeQuantiter() {
 
     produitQuantiter.forEach((produitQt) => {
         let idProduitQt = produitQt.closest("article").dataset.id;
-        console.log(idProduitQt);
+        (idProduitQt);
         let couleurProduitQT = produitQt.closest("article").dataset.color;
-        console.log(couleurProduitQT);
+        (couleurProduitQT);
         produitQt.addEventListener("click", (event) => {
             event.preventDefault();
             let nouvelQuantiter = Number(produitQt.value);
@@ -284,18 +284,18 @@ function postFetch() {
         for (let y = 0; y < localStorageProduit.length; y++) {
             produitAcheter.push(localStorageProduit[y].idDuProduit);
         }
-        console.log(produitAcheter);
+        (produitAcheter);
         const order = {
-            contact: {
-                firstName: inputPrenom.value,
-                lastName: inputNom.value,
-                address: inputAdress.value,
-                city: inputVille.value,
-                email: inputEmail.value
-            },
-            products: produitAcheter,
-        }
-        console.log(order);
+                contact: {
+                    firstName: inputPrenom.value,
+                    lastName: inputNom.value,
+                    address: inputAdress.value,
+                    city: inputVille.value,
+                    email: inputEmail.value
+                },
+                products: produitAcheter,
+            }
+            (order);
         const options = {
             method: 'POST',
             body: JSON.stringify(order),
@@ -304,13 +304,13 @@ function postFetch() {
                 "Content-Type": "application/json"
             },
         };
-        console.log(options);
+        (options);
 
         fetch("http://localhost:3000/api/products/order", options)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            document.location.href = 'confirmation.html?id=' + data.orderId;
+            .then((response) => response.json())
+            .then((data) => {
+                (data);
+                document.location.href = 'confirmation.html?id=' + data.orderId;
             })
 
     })

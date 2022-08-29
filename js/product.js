@@ -1,6 +1,6 @@
 //on récupère l'id du produit via l'url pour correctement afficher les détail du produit
 let produitId = new URL(window.location.href).searchParams.get("id");
-console.log(produitId);
+(produitId);
 
 //récupération des produits de l'api
 async function appelDesProduits() {
@@ -19,7 +19,7 @@ appelDesProduits();
 
 // fonction pour l'affichage des produit
 function afficherProduit(articleKanap) {
-    console.table(articleKanap);
+    table(articleKanap);
     //affichage de l'image du produit
     const imgProduit = document.createElement("img");
     imgProduit.src = `${articleKanap.imageUrl}`;
@@ -42,7 +42,7 @@ function afficherProduit(articleKanap) {
 
     //boucle for of pour afficher toutes les couleurs dispo du produit
     for (let couleurs of articleKanap.colors) {
-        console.table(couleurs);
+        table(couleurs);
 
         //crée l'élément html option
         let couleursProduit = document.createElement("option");
@@ -97,7 +97,7 @@ function btnAjoutProduit() {
     });
 }
 
-
+//fonction pour résumé le choix de la couleur de et la quantiter et renvoyer a la page panier
 function popupDeConfirmation() {
     if (window.confirm(`vous avez choisie la couleur ${couleur.value} en ${quantiterProduit.value} exemplère(s) 
     votre commande es ajouter au panier
@@ -106,7 +106,7 @@ function popupDeConfirmation() {
     }
 }
 
-
+// fonction pour ajouter un article au panier
 function ajoutAuPanier() {
 
     let choixCouleur = couleur.value;
@@ -129,13 +129,13 @@ function ajoutAuPanier() {
             let nouvelQuantiter = parseInt(produitOption.quantiterDuProduit) + parseInt(resultatFind.quantiterDuProduit);
             resultatFind.quantiterDuProduit = nouvelQuantiter;
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
-            console.table(localStorageProduit);
+            table(localStorageProduit);
             popupDeConfirmation();
             //si le produit commandé n'est pas dans le panier
         } else {
             localStorageProduit.push(produitOption);
             localStorage.setItem("produit", JSON.stringify(localStorageProduit));
-            console.table(localStorageProduit);
+            table(localStorageProduit);
             popupDeConfirmation();
         }
         //si le panier est vide
@@ -143,7 +143,7 @@ function ajoutAuPanier() {
         localStorageProduit = [];
         localStorageProduit.push(produitOption);
         localStorage.setItem("produit", JSON.stringify(localStorageProduit));
-        console.table(localStorageProduit);
+        table(localStorageProduit);
         popupDeConfirmation();
     }
 
